@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' // Spring Boot 플러그인
+    id 'io.spring.dependency-management' // Spring Dependency Management 플러그인
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // jdbc 자동 구성
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    // H2 데이터베이스
+    runtimeOnly 'com.h2database:h2:2.2.224'
+    // mybatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // common 의존성 추가 (domain 사용)
+    implementation project(':common')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    // main.clas 없어서 JAR로 생성
+    enabled=true
+}
+
+bootJar {
+    // Springboot에 실행 가능한 JAR 생성 비활성화
+    enabled=false
+}

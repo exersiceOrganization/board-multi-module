@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' // Spring Boot 플러그인
+    id 'io.spring.dependency-management' // Spring Dependency Management 플러그인
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Java 표준 라이브러리 util
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    // main.clas 없어서 JAR로 생성
+    enabled=true
+}
+
+bootJar {
+    // Springboot에 실행 가능한 JAR 생성 비활성화
+    enabled=false
+}

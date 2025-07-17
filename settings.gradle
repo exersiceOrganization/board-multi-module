@@ -1,0 +1,6 @@
+rootProject.name = 'board-multi-module'
+
+include 'common'
+include 'repository'
+include 'service'
+include 'web'
