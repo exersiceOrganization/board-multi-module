@@ -16,6 +16,12 @@ java {
 repositories {
     mavenCentral()
 }
+// 모든 공통 모듈에 적용될 plugin
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+}
 
 dependencies {
     // 공통 사용 추가

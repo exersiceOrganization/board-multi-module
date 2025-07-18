@@ -1,9 +1,3 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' // Spring Boot 플러그인
-    id 'io.spring.dependency-management' // Spring Dependency Management 플러그인
-}
-
 group = 'com.example'
 version = '1.0-SNAPSHOT'
 

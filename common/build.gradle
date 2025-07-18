@@ -1,9 +1,3 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' // Spring Boot 플러그인
-    id 'io.spring.dependency-management' // Spring Dependency Management 플러그인
-}
-
 group = 'com.example'
 version = '1.0-SNAPSHOT'
 
@@ -12,7 +6,7 @@ repositories {
 }
 
 dependencies {
-    // Java 표준 라이브러리 util
+    // Java 표준 라이브러리 util(stringUtils, NumberUtils...)
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
