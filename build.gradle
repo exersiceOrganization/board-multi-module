@@ -21,16 +21,28 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.springframework.boot'
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.38'
+        annotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
 }
 
-dependencies {
-    // 공통 사용 추가
-    compileOnly 'org.projectlombok:lombok'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
+//dependencies {}
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    // main.clas 없어서 JAR로 생성
+    enabled=true
+}
+
+bootJar {
+    // Springboot에 실행 가능한 JAR 생성 비활성화
+    enabled=false
 }
