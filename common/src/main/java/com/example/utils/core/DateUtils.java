@@ -2,12 +2,9 @@ package com.example.utils.core;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +18,7 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class DateUtils {
-    private static final String SIMPLE_DATE_FORMAT = "yyyMMdd";
+    private static final String SIMPLE_DATE_FORMAT = "yyyyMMdd";
     private static final String SIMPLE_TIME_FORMAT = "HHmmss";
 
     /**
@@ -347,6 +344,7 @@ public class DateUtils {
         }
 
         for (int i = 0; i < year.length(); i++) {
+            // 숫자 check
             if (!Character.isDigit(year.charAt(i))) {
                 return false;
             }
@@ -378,7 +376,7 @@ public class DateUtils {
         }
 
         if (8 != date.length()) {
-            return false;
+        return false;
         }
 
         for (int i = 0; i < date.length(); i++) {
@@ -387,22 +385,30 @@ public class DateUtils {
             }
         }
 
-        Integer iyear = Integer.parseInt(date.substring(0, 4));
-        Integer imon = Integer.parseInt(date.substring(4, 6));
-        Integer iday = Integer.parseInt(date.substring(6, 8));
-
-        if (iyear < 1900 || imon < 1 || imon > 12 || iday < 1) {
+        try{
+            LocalDate.parse(date, DateTimeFormatter.ofPattern(SIMPLE_DATE_FORMAT));
+        }catch (DateTimeParseException e){
             return false;
         }
-        if ((iyear % 400 == 0 || ((iyear % 100 != 0) && iyear % 4 == 0)) && imon == 2 && iday == 29) {
-            return result;
-        }
 
-        int[] daysOfMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
-        if (iday > daysOfMonth[imon - 1]) {
-            return false;
-        }
+//        Integer iyear = Integer.parseInt(date.substring(0, 4));
+//        Integer imon = Integer.parseInt(date.substring(4, 6));
+//        Integer iday = Integer.parseInt(date.substring(6, 8));
+//
+//        // 윤년 처리로직
+//        if (iyear < 1900 || imon < 1 || imon > 12 || iday < 1) {
+//            return false;
+//        }
+//        if ((iyear % 400 == 0 || ((iyear % 100 != 0) && iyear % 4 == 0)) && imon == 2 && iday == 29) {
+//            return result;
+//        }
+//
+//        int[] daysOfMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+//
+//        if (iday > daysOfMonth[imon - 1]) {
+//            return false;
+//        }
+//
 
         return result;
     }
@@ -433,13 +439,18 @@ public class DateUtils {
             }
         }
 
-        Integer ihour = Integer.parseInt(time.substring(0, 2));
-        Integer imin = Integer.parseInt(time.substring(2, 4));
-        Integer isec = Integer.parseInt(time.substring(4, 6));
-
-        if (imin < 0 || imin > 59 || isec < 0 || isec > 59 || ihour < 0 || ihour > 23) {
-            return false;
+        try{
+            LocalTime.parse(time, DateTimeFormatter.ofPattern(SIMPLE_TIME_FORMAT));
+        }catch(DateTimeParseException e){
+           return false;
         }
+//        Integer ihour = Integer.parseInt(time.substring(0, 2));
+//        Integer imin = Integer.parseInt(time.substring(2, 4));
+//        Integer isec = Integer.parseInt(time.substring(4, 6));
+//
+//        if (imin < 0 || imin > 59 || isec < 0 || isec > 59 || ihour < 0 || ihour > 23) {
+//            return false;
+//        }
 
         return result;
     }
@@ -528,30 +539,30 @@ public class DateUtils {
      *      result : 506.83870967741933
      * </pre>
      *
-     * @param d1 종료일자
-     * @param d2 시작일자
+     * @param endDate 종료일자
+     * @param startDate 시작일자
      * @return 두일자 사이 개월수
      */
-    public static double getMonthsBetween(String d1, String d2) {
+    public static double getMonthsBetween(String endDate, String startDate) {
         // 파라미터 유효체크
-        if (null == d1 || null == d2 || !(DateUtils.isValidDate(d1) || DateUtils.isValidDate(d2))) {
+        if (null == endDate || null == startDate || !(DateUtils.isValidDate(endDate) || DateUtils.isValidDate(startDate))) {
             throw CommonException.builder().message(Constants.INPUT_PARAM_ERROR_MESSAGE).build();
         }
 
         // 변수 설정
-        int iyear1 = Integer.parseInt(d1.substring(0, 4));
-        int imonth1 = Integer.parseInt(d1.substring(4, 6));
-        int iday1 = Integer.parseInt(d1.substring(6, 8));
+        int iyear1 = Integer.parseInt(endDate.substring(0, 4));
+        int imonth1 = Integer.parseInt(endDate.substring(4, 6));
+        int iday1 = Integer.parseInt(endDate.substring(6, 8));
 
-        int iyear2 = Integer.parseInt(d2.substring(0, 4));
-        int imonth2 = Integer.parseInt(d2.substring(4, 6));
-        int iday2 = Integer.parseInt(d2.substring(6, 8));
+        int iyear2 = Integer.parseInt(startDate.substring(0, 4));
+        int imonth2 = Integer.parseInt(startDate.substring(4, 6));
+        int iday2 = Integer.parseInt(startDate.substring(6, 8));
 
-        int idate1 = Integer.parseInt(d1);
-        int idate2 = Integer.parseInt(d2);
+        int idate1 = Integer.parseInt(endDate);
+        int idate2 = Integer.parseInt(startDate);
 
-        int date1Days = DateUtils.getDaysInMonth(d1.substring(0, 4), d1.substring(4, 6));
-        int date2Days = DateUtils.getDaysInMonth(d2.substring(0, 4), d2.substring(4, 6));
+        int date1Days = DateUtils.getDaysInMonth(endDate.substring(0, 4), endDate.substring(4, 6));
+        int date2Days = DateUtils.getDaysInMonth(startDate.substring(0, 4), startDate.substring(4, 6));
 
         if ((iday1 == date1Days && iday2 == date2Days) || (iday1 == iday2)) {
             return ((iyear1 - iyear2) * 12 + (imonth1 - imonth2));
@@ -591,24 +602,24 @@ public class DateUtils {
      *      result : 15427
      * </pre>
      *
-     * @param d1 종료일자
-     * @param d2 시작일자
+     * @param endDay 종료일자
+     * @param startDay 시작일자
      * @return 두 일자 사이의 일수
      */
-    public static int getDaysBetween(String d1, String d2) {
+    public static int getDaysBetween(String endDay, String startDay) {
         long calDateDays = 0;
         long calDate = 0;
         int result = 0;
 
         try {
             // 날짜 유효체크
-            if (!DateUtils.isValidDate(d1) || !DateUtils.isValidDate(d2)) {
+            if (!DateUtils.isValidDate(endDay) || !DateUtils.isValidDate(startDay)) {
                 throw CommonException.builder().message(Constants.INPUT_PARAM_ERROR_MESSAGE).build();
             }
 
             SimpleDateFormat format = new SimpleDateFormat(SIMPLE_DATE_FORMAT);
-            Date firstDate = format.parse(d1);
-            Date secondDate = format.parse(d2);
+            Date firstDate = format.parse(endDay);
+            Date secondDate = format.parse(startDay);
 
             // milliseconds 단위로 변환하여 계산
             calDate = firstDate.getTime() - secondDate.getTime();
@@ -682,7 +693,7 @@ public class DateUtils {
     public static String getQuarterStartEndDate(String year, String month, int kind) {
         String result = null;
         String mon = null;
-
+        // 분기 check
         int iquater = getQuarterYear(month);
 
         try {
@@ -723,6 +734,10 @@ public class DateUtils {
      * @return (0: 일요일 … 6: 토요일)
      */
     public static int getWeekday(String year, String month, String day) {
+        // 1자리 숫자에 0이 없으면 붙힘
+        if (month.length() == 1)    month = "0" + month;
+        if (day.length() == 1)  day = "0" + day;
+
         String date = year + month + day;
         int dayNum = 0;
 
@@ -1010,7 +1025,9 @@ public class DateUtils {
         String result = null;
 
         try {
-            LocalDateTime localDateTime = LocalDateTime.parse(time);
+            // 포멧 변경 시
+            LocalDateTime localDateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern("yyyyMMddHHmmss.SSS"));
+//            LocalDateTime localDateTime = LocalDateTime.parse(time);
 
             if (plus) {
                 result = localDateTime.plus(amountToAdd, unit).toString();
