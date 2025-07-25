@@ -523,7 +523,7 @@ public class StringUtils {
             char[] strToChar = checkStr.toCharArray();
 
             for (int i = 0; i < strToChar.length; i++) {
-                if (Character.isUpperCase(strToChar[i])) chkCnt++;
+                if (Character.isLowerCase(strToChar[i])) chkCnt++;
             }
 
             if (chkCnt > 0) chkInt = false;
@@ -558,7 +558,7 @@ public class StringUtils {
             char[] strToChar = checkStr.substring(0, length).toCharArray();
 
             for (int i = 0; i < strToChar.length; i++) {
-                if (Character.isUpperCase(strToChar[i])) chkCnt++;
+                if (!Character.isLowerCase(strToChar[i])) chkCnt++;
             }
 
             if (chkCnt > 0) chkInt = false;

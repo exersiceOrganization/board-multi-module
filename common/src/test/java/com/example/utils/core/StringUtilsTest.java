@@ -74,7 +74,23 @@ public class StringUtilsTest {
 
         testStr = "abcDef";
         result = StringUtils.isLowerCase(testStr);
+        log.debug("isLowerCase : {}", result);
         assertEquals(false, result);
+
+        result = StringUtils.isLowerCase(testStr, 3);
+        log.debug("isLowerCase(checkStr, length) : {}", result);
+        assertEquals(true, result);
+
+        testStr = "ABCdEF";
+        result = StringUtils.isUpperCase(testStr);
+        log.debug("isUpperCase : {}", result);
+        assertEquals(false, result);
+
+        result = StringUtils.isUpperCase(testStr, 3);
+        log.debug("isUpperCase(checkStr, length) : {}", result);
+        assertEquals(true, result);
+
+
     }
 
     @Test
