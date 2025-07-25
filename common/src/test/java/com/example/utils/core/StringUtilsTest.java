@@ -74,7 +74,7 @@ public class StringUtilsTest {
 
         testStr = "abcDef";
         result = StringUtils.isLowerCase(testStr);
-        assertEquals();
+        assertEquals(false, result);
     }
 
     @Test
