@@ -108,12 +108,12 @@ public class FormatterUtils {
      * @see FixedData
      */
     @SuppressWarnings("unchecked")
-    private static String getFixedData(Object obj, String encoding, boolean isNull, Map<String, Object>){
+    private static String getFixedData(Object obj, String encoding, boolean isNull, Map<String, Object> formatterErrorData){
 
         log.debug("PARAM : {}", obj);
 
         StringBuilder sb = new StringBuilder();
-        List<FixedField> fieldList = getFildList(obj.getClass(), null);
+        List<FixedField> fieldList = getFieldList(obj.getClass(), null);
         int fieldListIndex = 0;
         int fieldListSize = fieldList.size();
 
@@ -121,7 +121,7 @@ public class FormatterUtils {
             fieldListIndex++;
 
             if (fixedField.isFixedVo()){
-                Object subObj = getFixedObject(obj, fixedField);
+                Object subObj = getFieldObject(obj, fixedField);
                 if (subObj == null){
                     try{
                         subObj = fixedField.getType().newInstance();
@@ -139,7 +139,7 @@ public class FormatterUtils {
                 List<Object> listObj = (List<Object>) getFieldObject(obj, fixedField);
 
                 // list size validation check
-                int listSize = getFixedListSize(obj, fixedField, fieldListIndex, fieldListSize, false, fomatterErrorData);
+                int listSize = getFixedListSize(obj, fixedField, fieldListIndex, fieldListSize, false, formatterErrorData);
                 // 마지막에 위치한 list 또는 size가 0이고, list object가 null 또는 empty이면 skip
                 if ( (listSize == Integer.MAX_VALUE || listSize == 0)
                     && (listObj == null || listObj.isEmpty()) ){
@@ -183,7 +183,7 @@ public class FormatterUtils {
                                 sb.append(getFixedData(subFieldObject, encoding, isNull, formatterErrorData));
                             }
                         }else{
-                            sb.append(padFixedData(lsitItem, subField, encoding, isNull));
+                            sb.append(padFixedData(listItem, subField, encoding, isNull));
                         }
                     }
                 }
@@ -193,6 +193,100 @@ public class FormatterUtils {
         }
 
         log.debug("FIXED_DATA : {}", sb);
+        return sb.toString();
+    }
+
+    /**
+     * list field 에 설정된 size 조회.
+     *
+     * @param obj               대상 object
+     * @param fixedField        list 의 fixedField
+     * @param fieldListIndex    대상 object 에서 계산 대상 list 의 index
+     * @param fieldListSize     대상 object 의 field 수
+     * @param mustThrowException size 조회 중 에러 발생시 반드시 throw exception 여부
+     * @return  list field 의 size.
+     */
+    private static int getFixedListSize(Object obj, FixedField fixedField, int fieldListIndex, int fieldListSize,
+                                        boolean mustThrowException, Map<String, Object> formatterErrorData) {
+        // size validation check
+        FixedList fixedList = fixedField.getFixedList();
+        int listSize = fixedList.size();
+        if (listSize < 0) {
+            String listSizeRef = fixedList.sizeRef();
+            if (listSizeRef.isEmpty()) {
+                /*
+                 * FixedList 에 size / sizeRef 둘 다 설정되어있지 않다면,
+                 * 마지막에 위치하고 size가 정해져있지 않은 list
+                 */
+
+                // 마지막에 위치하고 있지 않다면 error 발생
+                if (fieldListIndex < fieldListSize) {
+                    log.warn("field index : {}, field list size : {}", fieldListIndex, fieldListSize);
+                    if (dataParsingThrowException || mustThrowException) {
+                        throw CommonException.builder().message("invalid data(list field)").build();
+                    }
+                }
+                // 마지막에 위치했다면, size 는 무한
+                listSize = Integer.MAX_VALUE;
+            } else {
+                // sizeRef는 list 이전에 위치해야 함
+                Object sizeRefObject = null;
+                try {
+                    Field field = obj.getClass().getDeclaredField(listSizeRef);
+                    field.setAccessible(true);
+                    sizeRefObject = field.get(obj);
+                    // long 이면 int 로 변경
+                    if (java.lang.Long.class.equals(sizeRefObject.getClass())) {
+                        listSize = ((Long)sizeRefObject).intValue();
+                    } else {
+                        listSize = (int)field.get(obj);
+                    }
+                } catch (IllegalAccessException | NoSuchFieldException | NullPointerException e) {
+                    log.warn("LIST TYPE:{}, field name : {}", fixedField.getType().getName(), fixedField.getName(), e);
+                    formatterErrorData.put(fixedList.sizeRef(), sizeRefObject);
+                    if (dataParsingThrowException || mustThrowException) {
+                        throw CommonException.builder().message(e.getMessage()).cause(e).build();
+                    }
+                }
+            }
+        }
+        log.debug("list size : {}", listSize);
+        return listSize;
+    }
+
+    /**
+     * 대상 object 의 fixedField 정보를 가지고 고정 길이 문자열로 변환
+     *
+     * @param obj           변환 대상 object
+     * @param fixedField    object 의 fixedField
+     * @param encoding      변환 시 사용할 encoding
+     * @param isNull        obj 가 null 값인 경우 true
+     * @return  fixed-length-data
+     */
+    private static String padFixedData(Object obj, FixedField fixedField, String encoding, boolean isNull) {
+        FixedData fixedData = fixedField.getFixedData();
+        char padChar = getPadChar(fixedField);
+        int[] lengthArr = getLength(fixedData);
+
+        StringBuilder sb = new StringBuilder();
+        String value = null;
+        if(isNull) {
+            value = String.valueOf(CHARACTER_TYPE_PADDING_CHAR);
+            padChar = CHARACTER_TYPE_PADDING_CHAR;
+        } else {
+            Object fieldObj = getFieldObject(obj, fixedField);
+            value = getStringValue(fieldObj, fixedField);
+        }
+
+        if (fixedField.getType().equals(BigDecimal.class)) {
+            sb.append(getBigDecimalType(value, lengthArr, padChar, fixedData.signed(), encoding));
+        } else {
+            if (PAD_TYPE.RIGHT.equals(fixedData.padType())) {
+                sb.append(paddingRight(value, lengthArr[0], padChar, encoding));
+            } else {
+                sb.append(paddingLeft(value, lengthArr[0], padChar, encoding));
+            }
+        }
         return sb.toString();
     }
 
