@@ -9,7 +9,7 @@ dependencies {
     // Add modules
     implementation project(':repository')
     implementation project(':common')
-    // spring core
+    // spring common
     implementation 'org.springframework.boot:spring-boot-starter'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

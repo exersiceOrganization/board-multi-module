@@ -1,10 +1,10 @@
 package com.example.utils.extension;
 
-import com.example.model.PagingInfo;
-import com.example.model.core.CommonHeader;
-import com.example.model.core.CommonRequest;
-import com.example.model.core.CommonResponse;
-import com.example.model.core.ResponseMessage;
+import com.example.model.core.PagingInfo;
+import com.example.model.common.CommonHeader;
+import com.example.model.common.CommonRequest;
+import com.example.model.common.CommonResponse;
+import com.example.model.common.ResponseMessage;
 import com.example.utils.core.DateUtils;
 import com.example.utils.core.RequestScopeUtils;
 import com.example.utils.core.StringUtils;

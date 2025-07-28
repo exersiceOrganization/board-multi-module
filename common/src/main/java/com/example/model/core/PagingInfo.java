@@ -1,4 +1,4 @@
-package com.example.model;
+package com.example.model.core;
 
 import lombok.Builder;
 import lombok.Getter;

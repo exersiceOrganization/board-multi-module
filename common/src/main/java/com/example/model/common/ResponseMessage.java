@@ -1,4 +1,4 @@
-package com.example.model.core;
+package com.example.model.common;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

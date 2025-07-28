@@ -1,6 +1,6 @@
-package com.example.model.core;
+package com.example.model.common;
 
-import com.example.model.PagingInfo;
+import com.example.model.core.PagingInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

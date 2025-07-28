@@ -1,4 +1,4 @@
-package com.example.model.core;
+package com.example.model.common;
 
 import com.example.utils.core.RequestScopeUtils;
 import jakarta.validation.Valid;

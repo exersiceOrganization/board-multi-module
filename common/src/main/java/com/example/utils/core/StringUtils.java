@@ -686,7 +686,7 @@ public class StringUtils {
      * @param inputStr 변환할 문자열
      * @return 대문자 변환 리턴
      */
-    public static String getUpperrCase(String inputStr) {
+    public static String getUpperCase(String inputStr) {
 
         // destination : 목적지
         String dest = "";
@@ -712,7 +712,7 @@ public class StringUtils {
      * @param length   변환할 길이
      * @return 대문자 변환 리턴
      */
-    public static String getUpperrCase(String inputStr, int length) {
+    public static String getUpperCase(String inputStr, int length) {
 
         // destination : 목적지
         String dest = "";
@@ -1259,7 +1259,7 @@ public class StringUtils {
      * @param length 변환할 길이
      * @return 정수로 변환해 리턴
      */
-    public static int stringToint(String str, int length) {
+    public static int stringToInt(String str, int length) {
 
         try {
             int rtVal = 0;
