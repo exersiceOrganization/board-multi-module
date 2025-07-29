@@ -1263,7 +1263,7 @@ public class StringUtils {
 
         try {
             int rtVal = 0;
-            rtVal = Integer.parseInt(str);
+            rtVal = Integer.parseInt(str.substring(0, length));
             return rtVal;
 
 

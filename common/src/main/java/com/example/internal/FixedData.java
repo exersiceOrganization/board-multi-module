@@ -5,13 +5,12 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface FixedData  {
-    public enum  PAD_TYPE {
-        LEFT
-        , RIGHT
+public @interface FixedData {
+    public enum PAD_TYPE {
+        LEFT, RIGHT
     }
 
-    int[] value() default  0;
+    int[] value() default 0;
 
     int[] length() default 0;
 

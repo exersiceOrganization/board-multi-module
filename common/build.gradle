@@ -31,6 +31,12 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-web'
 }
 
+// unchecked 경고 발생 위치 확인
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:deprecation"
+    options.compilerArgs << "-Xlint:unchecked"
+}
+
 test {
     useJUnitPlatform()
 }

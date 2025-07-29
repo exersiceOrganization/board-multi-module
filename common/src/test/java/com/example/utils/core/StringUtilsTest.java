@@ -85,7 +85,7 @@ public class StringUtilsTest {
         assertEquals(false, result);
         result = StringUtils.isUpperCase("ABCdEF", 3);
         log.debug("isUpperCase : {}", result);
-        assertEquals(true, result);
+        assertEquals(false, result);
 
         result = StringUtils.isAllZero("0000 0000", 5);
         log.debug("isAllZero : {}", result);

@@ -9,7 +9,8 @@ import lombok.ToString;
 
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 @Builder
 @ToString
 public class FixedField {
