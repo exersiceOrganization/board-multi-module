@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SampleModel {
     private String name;
-    private String phone;
+    private String phone_number;
     private String home_address;
-    private String faxNumber;
+    private String fax_number;
 }

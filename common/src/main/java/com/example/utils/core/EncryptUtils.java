@@ -218,7 +218,7 @@ public class EncryptUtils {
                // 생성할 인증 태그의 길이와 초기화 벡터 값을 Cipher에게 전달
                GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH, iv);
                // 암호화 모드, key, iv 및 태그 길이를 포함해 Cipher 초기화
-               cipher.init(Cipher.ENCRYPT_MODE, keySpec, gcmParameterSpec);
+               cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmParameterSpec);
 
                // doFinal() 호출하여 실제 암복호화 수행
                return new String(cipher.doFinal(encrypted));

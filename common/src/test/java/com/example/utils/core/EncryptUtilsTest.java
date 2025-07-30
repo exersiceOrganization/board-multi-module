@@ -18,6 +18,7 @@ public class EncryptUtilsTest {
         log.debug("encryptSha256 : {}", EncryptUtils.encryptSha256("test password !234", true, false));
         log.debug("encryptNumberByBlacke2b : {}", EncryptUtils.encryptNumberByBlake2b(1234567890, 16, '6'));
         log.debug("encryptAES : {}", EncryptUtils.encryptAES("test password !234"));
+        log.debug("decryptAES : {}", EncryptUtils.decryptAES("Yb4tXCQwJ6eQBbUd4wXVrgzDrt81BrVlp8YJi6gbQ7ott/jNo8rIj9zaZzWLlYezkI8="));
     }
 
     @Test

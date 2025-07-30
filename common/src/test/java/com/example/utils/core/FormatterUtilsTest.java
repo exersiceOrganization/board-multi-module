@@ -321,7 +321,7 @@ public class FormatterUtilsTest {
     void notFixedDataConversionTest() {
         SampleModel sample = SampleModel.builder()
                 .name("name")
-                .phone("010-1111-2222")
+                .phone_number("010-1111-2222")
                 .build();
 
         assertEquals(FormatterUtils.getFixedData(sample).length(), 0);
