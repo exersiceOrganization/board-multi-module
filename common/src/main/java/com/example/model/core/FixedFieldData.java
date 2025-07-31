@@ -1,6 +1,6 @@
 package com.example.model.core;
 
-import com.example.internal.FixedData;
+import com.example.internal.annotations.FixedData;
 import lombok.*;
 
 /** value를 고정 길이 문자열로 만들기 위한 object */

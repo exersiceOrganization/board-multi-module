@@ -2,9 +2,9 @@ package com.example.model;
 
 import java.util.List;
 
-import com.example.internal.FixedData;
-import com.example.internal.FixedData.PAD_TYPE;
-import com.example.internal.FixedList;
+import com.example.internal.annotations.FixedData;
+import com.example.internal.annotations.FixedData.PAD_TYPE;
+import com.example.internal.annotations.FixedList;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

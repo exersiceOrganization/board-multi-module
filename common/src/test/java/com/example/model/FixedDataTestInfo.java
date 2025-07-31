@@ -2,8 +2,8 @@ package com.example.model;
 
 import java.math.BigDecimal;
 
-import com.example.internal.FixedData;
-import com.example.internal.FixedData.PAD_TYPE;
+import com.example.internal.annotations.FixedData;
+import com.example.internal.annotations.FixedData.PAD_TYPE;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

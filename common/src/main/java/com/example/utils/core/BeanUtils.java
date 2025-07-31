@@ -1,5 +1,6 @@
 package com.example.utils.core;
 
+import com.example.internal.ApplicationContextProvider;
 import org.springframework.context.ApplicationContext;
 
 public class BeanUtils {
@@ -17,6 +18,7 @@ public class BeanUtils {
      * @return              조회된 bean object
      */
     public static <T> T getBean(Class<T> classType){
-        ApplicationContext applicationContext = F
+        ApplicationContext applicationContext = ApplicationContextProvider.getContext();
+        return applicationContext.getBean(classType);
     }
 }

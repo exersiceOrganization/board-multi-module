@@ -1,7 +1,7 @@
 package com.example.model.core;
 
-import com.example.internal.FixedData;
-import com.example.internal.FixedList;
+import com.example.internal.annotations.FixedData;
+import com.example.internal.annotations.FixedList;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
