@@ -2,11 +2,13 @@ group = 'com.example'
 version = '1.0-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-
+    // AOP
+    api 'org.springframework.boot:spring-boot-starter-aop'
     // Java 표준 라이브러리 util(stringUtils, NumberUtils...)
     implementation 'org.apache.commons:commons-lang3:3.17.0'
     // Spring Boot 애플리케이션에 OpenAPI 3.0 문서를 추가 (Swagger UI 포함)

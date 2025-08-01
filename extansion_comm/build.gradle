@@ -6,11 +6,12 @@ group = 'com.example'
 version = '1.0-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    // common모듈
+    // common모듈 추가
     implementation project(':common')
 
     testImplementation 'org.springframework.boot:spring-boot-starter-web'
