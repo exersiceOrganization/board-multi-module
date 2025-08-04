@@ -28,8 +28,13 @@ dependencies {
     // 이 모듈에서 OpenTelemetry API를 직접 사용하는 코드가 있다면 추가
     implementation 'io.opentelemetry:opentelemetry-api:1.39.0'
 
+    // prometheus, Grafana등 메트릭 전송을 위한 모니터링 시스템
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    // mock
+    testImplementation 'org.mockito:mockito-core:5.11.0'
 
 }
 
